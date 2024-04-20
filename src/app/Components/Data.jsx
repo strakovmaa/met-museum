@@ -1,7 +1,8 @@
 "use client";
-import { Container, TextField, Typography } from "@mui/material";
+import { Container, TextField } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import PaintingsList from "./PaintingsList";
 
 export default function Data() {
   const [objectIDs, setObjectIDs] = useState([]);
@@ -25,7 +26,7 @@ export default function Data() {
           if (result.total === 0) {
             setObjectIDs([]);
           } else {
-            setObjectIDs(result.objectIDs.slice(0, 12));
+            setObjectIDs(result.objectIDs.slice(0, 15));
           }
         })
         .catch((error) => {
@@ -60,11 +61,7 @@ export default function Data() {
         value={myInput}
         onChange={handleChange}
       />
-      <Typography>
-        {results.map((painting) => (
-          <li key={painting.title}>{painting.title}</li>
-        ))}
-      </Typography>
+      <PaintingsList results={results} myInput={myInput} />
     </Container>
   );
 }
