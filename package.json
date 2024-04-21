@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@emotion/cache": "^11.11.0",
+    "@mui/icons-material": "^5.15.15",
     "@mui/material-nextjs": "^5.15.11",
     "axios": "^1.6.8",
     "eslint-config-prettier": "^9.1.0",
