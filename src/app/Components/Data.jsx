@@ -9,6 +9,7 @@ export default function Data() {
   const [objectIDs, setObjectIDs] = useState([]);
   const [myInput, setMyInput] = useState("");
   const [results, setResults] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const debouncedMyInput = useDebouncedValue(myInput, 500);
 
@@ -18,6 +19,8 @@ export default function Data() {
 
   useEffect(() => {
     if (debouncedMyInput.length > 3) {
+      setIsLoading(true);
+
       axios
         .get(
           `https://collectionapi.metmuseum.org/public/collection/v1/search?q=${debouncedMyInput}`
@@ -38,19 +41,20 @@ export default function Data() {
 
   useEffect(() => {
     setResults([]);
-    objectIDs.forEach((id) => {
-      axios
-        .get(
-          `https://collectionapi.metmuseum.org/public/collection/v1/objects/${id}`
-        )
-        .then((response) => {
-          const result = response.data;
-          setResults((prev) => [...prev, result]);
-        })
-        .catch((error) => {
-          console.error("Chyba pri načítavaní údajov:", error);
-        });
+    const promises = objectIDs.map((id) => {
+      return axios.get(
+        `https://collectionapi.metmuseum.org/public/collection/v1/objects/${id}`
+      );
     });
+    Promise.all(promises)
+      .then((res) => {
+        const resultsData = res.map((response) => response.data);
+        setResults(resultsData);
+      })
+      .catch((error) => {
+        console.error("Chyba pri načítavaní údajov:", error);
+      })
+      .finally(() => setIsLoading(false));
   }, [objectIDs]);
 
   return (
@@ -61,7 +65,11 @@ export default function Data() {
         value={myInput}
         onChange={handleChange}
       />
-      <PaintingsList results={results} myInput={myInput} />
+      <PaintingsList
+        results={results}
+        myInput={myInput}
+        isLoading={isLoading}
+      />
     </Container>
   );
 }

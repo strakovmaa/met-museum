@@ -1,7 +1,15 @@
-import { Alert, Box, Grid } from "@mui/material";
+import { Alert, Box, CircularProgress, Grid, Stack } from "@mui/material";
 import PaintingCard from "./PaintingCard";
 
-export default function PaintingsList({ results, myInput }) {
+export default function PaintingsList({ results, myInput, isLoading }) {
+  if (isLoading) {
+    return (
+      <Stack my={20} alignItems={"center"}>
+        <CircularProgress />
+      </Stack>
+    );
+  }
+
   return (
     <Box sx={{ minWidth: 275, mt: 3 }}>
       {results.length === 0 && myInput.length > 0 ? (
