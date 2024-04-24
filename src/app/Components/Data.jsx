@@ -4,6 +4,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useDebouncedValue } from "../hooks/useDebouncedValue";
 import PaintingsList from "./PaintingsList";
+import PopularSearch from "./PopularSearch";
 
 export default function Data() {
   const [objectIDs, setObjectIDs] = useState([]);
@@ -58,18 +59,24 @@ export default function Data() {
   }, [objectIDs]);
 
   return (
-    <Container>
-      <TextField
-        variant="outlined"
-        label="Vyhľadávať"
-        value={myInput}
-        onChange={handleChange}
-      />
-      <PaintingsList
-        results={results}
-        myInput={myInput}
-        isLoading={isLoading}
-      />
-    </Container>
+    <>
+      <Container maxWidth="md" >
+        <TextField
+          fullWidth
+          variant="outlined"
+          label="Vyhľadávať"
+          value={myInput}
+          onChange={handleChange}
+        />
+        {myInput.length === 0 && <PopularSearch setMyInput={setMyInput} />}
+      </Container>
+      <Container>
+        <PaintingsList
+          results={results}
+          myInput={myInput}
+          isLoading={isLoading}
+        />
+      </Container>
+    </>
   );
 }
