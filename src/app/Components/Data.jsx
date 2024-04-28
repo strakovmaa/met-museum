@@ -1,5 +1,10 @@
 "use client";
-import { Container, TextField } from "@mui/material";
+import {
+  Checkbox,
+  Container,
+  FormControlLabel,
+  TextField
+} from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useDebouncedValue } from "../hooks/useDebouncedValue";
@@ -11,21 +16,25 @@ export default function Data() {
   const [myInput, setMyInput] = useState("");
   const [results, setResults] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [onView, setOnView] = useState(true);
 
   const debouncedMyInput = useDebouncedValue(myInput, 500);
 
-  const handleChange = (event) => {
+  const handleInputChange = (event) => {
     setMyInput(event.target.value);
+  };
+
+  const handleCheckChange = (event) => {
+    setOnView(event.target.checked);
   };
 
   useEffect(() => {
     if (debouncedMyInput.length > 3) {
       setIsLoading(true);
-
+      const isOnView = onView ? "&isOnView=true" : "";
+      const url = `https://collectionapi.metmuseum.org/public/collection/v1/search?q=${debouncedMyInput}${isOnView}`;
       axios
-        .get(
-          `https://collectionapi.metmuseum.org/public/collection/v1/search?q=${debouncedMyInput}`
-        )
+        .get(url)
         .then((response) => {
           const result = response.data;
           if (result.total === 0) {
@@ -38,7 +47,7 @@ export default function Data() {
           console.error("Chyba pri načítavaní údajov:", error);
         });
     }
-  }, [debouncedMyInput]);
+  }, [debouncedMyInput, onView]);
 
   useEffect(() => {
     setResults([]);
@@ -60,13 +69,17 @@ export default function Data() {
 
   return (
     <>
-      <Container maxWidth="md" >
+      <Container maxWidth="md">
         <TextField
           fullWidth
           variant="outlined"
           label="Vyhľadávať"
           value={myInput}
-          onChange={handleChange}
+          onChange={handleInputChange}
+        />
+        <FormControlLabel
+          control={<Checkbox checked={onView} onChange={handleCheckChange} />}
+          label="Iba vystavené"
         />
         {myInput.length === 0 && <PopularSearch setMyInput={setMyInput} />}
       </Container>
