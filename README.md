@@ -3,7 +3,7 @@
 This app showcases the art collection of The Metropolitan Museum of Art in New York. Search by the artist or the title and enjoy their art from afar. Click on "Zaujíma Vás viac?" and find out more details about the art piece. Explore the demo [here](https://met-museum-ny.vercel.app/).
 
 ## Features
-- search in museum [public API](https://github.com/madox2/react-tagcloud#readme)
+- search in museum [public API](https://metmuseum.github.io/)
 - search submit is triggered automatically on input change
 - tag cloud with recommended search terms
 
