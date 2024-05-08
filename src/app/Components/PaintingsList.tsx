@@ -1,7 +1,14 @@
 import { Alert, Box, CircularProgress, Grid, Stack } from "@mui/material";
+import { Painting } from "../types.js";
 import PaintingCard from "./PaintingCard";
 
-export default function PaintingsList({ results, myInput, isLoading }) {
+type Props = {
+  results: Painting[];
+  myInput: string;
+  isLoading: boolean;
+};
+
+export default function PaintingsList({ results, myInput, isLoading }: Props) {
   if (isLoading) {
     return (
       <Stack my={20} alignItems={"center"}>

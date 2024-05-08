@@ -9,7 +9,13 @@ import {
   Stack,
   Typography
 } from "@mui/material";
+import { Painting } from "../types";
 import Picture from "./Picture";
+
+type Props = {
+  painting: Painting;
+};
+
 export default function PaintingCard({
   painting: {
     title,
@@ -21,7 +27,7 @@ export default function PaintingCard({
     objectURL,
     isHighlight
   }
-}) {
+}: Props) {
   return (
     <Card
       sx={{

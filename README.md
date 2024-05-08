@@ -10,7 +10,7 @@ This app showcases the art collection of The Metropolitan Museum of Art in New Y
 
 ## Built With
 
-- [Next.js](https://nextjs.org/) + JavaScript
+- [Next.js](https://nextjs.org/) + TypeScript
 - [Material-UI](https://material-ui.com/)
 - [Axios](https://github.com/axios/axios)
 - [React tag cloud](https://github.com/madox2/react-tagcloud#readme)
