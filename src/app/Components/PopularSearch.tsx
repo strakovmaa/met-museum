@@ -1,18 +1,6 @@
 import { Link } from "@mui/material";
-import { TagCloud } from "react-tagcloud";
-
-const artists = [
-  "Vincent van Gogh",
-  "Claude Monet",
-  "Edgar Degas",
-  "Pablo Picasso",
-  "Henri Matisse",
-  "Rembrandt",
-  "Johannes Vermeer",
-  "Paul Cézanne",
-  "Jackson Pollock",
-  "Egon Schiele"
-];
+import { Dispatch, SetStateAction } from "react";
+import { RendererFunction, TagCloud, TagEventHandler } from "react-tagcloud";
 
 const artistsCloud = [
   { value: "Vincent van Gogh", count: 38 },
@@ -27,7 +15,7 @@ const artistsCloud = [
   { value: "Egon Schiele", count: 24 }
 ];
 
-const customRenderer = (tag, size, color) => {
+const customRenderer: RendererFunction = (tag, size, color) => {
   return (
     <Link
       key={tag.value}
@@ -46,8 +34,12 @@ const customRenderer = (tag, size, color) => {
   );
 };
 
-export default function PopularSearch({ setMyInput }) {
-  const handleClick = (artist) => {
+type Props = {
+  setMyInput: Dispatch<SetStateAction<string>>;
+};
+
+export default function PopularSearch({ setMyInput }: Props) {
+  const handleClick: TagEventHandler = (artist) => {
     setMyInput(artist.value);
   };
 
@@ -59,6 +51,7 @@ export default function PopularSearch({ setMyInput }) {
       disableRandomColor
       renderer={customRenderer}
       onClick={handleClick}
+      // @ts-ignore
       style={{ textAlign: "center" }}
     />
   );

@@ -2,7 +2,11 @@ import { InsertPhoto } from "@mui/icons-material";
 import { Box, CardMedia } from "@mui/material";
 import { grey } from "@mui/material/colors";
 
-export default function Picture({ imageSrc }) {
+type Props = {
+  imageSrc: string;
+};
+
+export default function Picture({ imageSrc }: Props) {
   return (
     <Box sx={{ height: 290, backgroundColor: grey[100] }}>
       {imageSrc.length === 0 ? (

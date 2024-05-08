@@ -6,25 +6,28 @@ import {
   TextField
 } from "@mui/material";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { ChangeEvent, ChangeEventHandler, useEffect, useState } from "react";
 import { useDebouncedValue } from "../hooks/useDebouncedValue";
+import { Painting } from "../types";
 import PaintingsList from "./PaintingsList";
 import PopularSearch from "./PopularSearch";
 
 export default function Data() {
-  const [objectIDs, setObjectIDs] = useState([]);
+  const [objectIDs, setObjectIDs] = useState<number[]>([]);
   const [myInput, setMyInput] = useState("");
-  const [results, setResults] = useState([]);
+  const [results, setResults] = useState<Painting[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [onView, setOnView] = useState(true);
 
   const debouncedMyInput = useDebouncedValue(myInput, 500);
 
-  const handleInputChange = (event) => {
+  const handleInputChange: ChangeEventHandler<
+    HTMLInputElement | HTMLTextAreaElement
+  > = (event) => {
     setMyInput(event.target.value);
   };
 
-  const handleCheckChange = (event) => {
+  const handleCheckChange = (event: ChangeEvent<HTMLInputElement>) => {
     setOnView(event.target.checked);
   };
 
@@ -52,7 +55,7 @@ export default function Data() {
   useEffect(() => {
     setResults([]);
     const promises = objectIDs.map((id) => {
-      return axios.get(
+      return axios.get<Painting>(
         `https://collectionapi.metmuseum.org/public/collection/v1/objects/${id}`
       );
     });
